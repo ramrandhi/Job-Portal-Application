@@ -44,7 +44,7 @@ public class Job implements Serializable  {
 	private String maxSalary;
 	private String location;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JsonBackReference
 	private Company company;
 	

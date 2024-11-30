@@ -27,14 +27,14 @@ public class ReviewController {
 	}
 
 	@GetMapping("/reviews")
-	public ResponseEntity<List<Review>> getAllReviews(@PathVariable("companyId") Long companyId) {
+	public ResponseEntity<List<Review>> getAllReviews(@PathVariable Long companyId) {
 		List<Review> reviews = reviewService.findAllReviews(companyId);
 		return new ResponseEntity<>(reviews, HttpStatus.OK);
 	}
 
 	@GetMapping("/reviews/{reviewId}")
-	public ResponseEntity<Review> getReviewById(@PathVariable("companyId") Long companyId,
-			@PathVariable("reviewId") Long reviewId) {
+	public ResponseEntity<Review> getReviewById(@PathVariable Long companyId,
+			@PathVariable Long reviewId) {
 		Review review = reviewService.findReviewById(companyId, reviewId);
 		if (review != null)
 			return new ResponseEntity<>(review, HttpStatus.OK);
@@ -42,7 +42,7 @@ public class ReviewController {
 	}
 
 	@PostMapping("/reviews")
-	public ResponseEntity<String> saveReview(@PathVariable("companyId") Long companyId, @RequestBody Review review) {
+	public ResponseEntity<String> saveReview(@PathVariable Long companyId, @RequestBody Review review) {
 		Boolean bool = reviewService.save(companyId, review);
 		if (bool)
 			return new ResponseEntity<>("Review saved Successfully", HttpStatus.OK);
@@ -50,8 +50,8 @@ public class ReviewController {
 	}
 
 	@PutMapping("/reviews/{reviewId}")
-	public ResponseEntity<String> updateReview(@PathVariable("companyId") Long companyId,
-			@PathVariable("reviewId") Long reviewId, @RequestBody Review updateReview) {
+	public ResponseEntity<String> updateReview(@PathVariable Long companyId,
+			@PathVariable Long reviewId, @RequestBody Review updateReview) {
 		Boolean isReviewUpdated = reviewService.updateReview(companyId, reviewId, updateReview);
 		if (isReviewUpdated)
 			return new ResponseEntity<>("Review Updated successfully", HttpStatus.OK);
@@ -59,8 +59,8 @@ public class ReviewController {
 	}
 
 	@DeleteMapping("/reviews/{reviewId}")
-	public ResponseEntity<String> deleteReview(@PathVariable("companyId") Long companyId,
-			@PathVariable("reviewId") Long reviewId) {
+	public ResponseEntity<String> deleteReview(@PathVariable Long companyId,
+			@PathVariable Long reviewId) {
 		Boolean isReviewDeleted = reviewService.deleteReviewById(companyId, reviewId);
 		if (isReviewDeleted)
 			return new ResponseEntity<>("Review Deleted Successfully", HttpStatus.OK);

@@ -7,8 +7,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.learn.entity.Company;
 import com.learn.entity.Job;
 import com.learn.repository.JobRepository;
+import com.learn.service.CompanyService;
 import com.learn.service.JobService;
 
 @Service
@@ -16,8 +18,11 @@ public class JobServiceImpl implements JobService {
 
 	private JobRepository jobRepository;
 
-	public JobServiceImpl(JobRepository jobRepository) {
+	private CompanyService companyService;
+
+	public JobServiceImpl(JobRepository jobRepository, CompanyService companyService) {
 		this.jobRepository = jobRepository;
+		this.companyService = companyService;
 	}
 
 	private List<Job> jobs = new ArrayList<>();
@@ -32,7 +37,11 @@ public class JobServiceImpl implements JobService {
 	public String createJob(Job job) {
 //		job.setId(nextId++);
 //		jobs.add(job);
-		jobRepository.save(job);
+		Company company = companyService.getCompanyById(job.getCompany().getId());
+		if (company != null) {
+			job.setCompany(company);
+			jobRepository.save(job);
+		}
 		return "Job added successfully!";
 	}
 
@@ -86,9 +95,9 @@ public class JobServiceImpl implements JobService {
 //				return true;
 //			}
 //		}
-		
+
 		Optional<Job> jobOptional = jobRepository.findById(id);
-		if(jobOptional.isPresent()) {
+		if (jobOptional.isPresent()) {
 			Job job = jobOptional.get();
 			job.setTitle(updatedJob.getTitle());
 			job.setDescription(updatedJob.getDescription());
